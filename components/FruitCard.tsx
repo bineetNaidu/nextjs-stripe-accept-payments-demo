@@ -30,7 +30,13 @@ export const FruitCard: FC<FruitCardProps> = ({ fruit }) => {
             value={fruit.title}
             readOnly
           />
-          <Card hoverable clickable as="button" role="link">
+          <Card
+            hoverable
+            clickable
+            as="button"
+            role="link"
+            css={{ border: 'none' }}
+          >
             <Card.Body css={{ p: 0 }}>
               <Card.Image
                 objectFit="cover"
