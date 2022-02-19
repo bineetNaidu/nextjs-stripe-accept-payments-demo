@@ -7,18 +7,6 @@ interface FruitCardProps {
 }
 
 export const FruitCard: FC<FruitCardProps> = ({ fruit }) => {
-  // const handleBuy = () => {
-  //   console.log('Buy clicked');
-  //   fetch('/api/checkout_sessions', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       fruit,
-  //     }),
-  //   });
-  // };
   return (
     <Grid xs={6} sm={3}>
       <form action="/api/checkout_sessions" method="POST">

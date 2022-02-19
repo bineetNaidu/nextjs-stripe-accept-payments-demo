@@ -6,6 +6,7 @@ import { Fruit } from '../lib/types';
 import { FruitCard } from '../components/FruitCard';
 
 import { loadStripe } from '@stripe/stripe-js';
+import { useToasts } from 'react-toast-notifications';
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error('Missing Stripe Publishable Key');
@@ -17,6 +18,7 @@ export const stripePromise = loadStripe(
 
 const Index: NextPage = () => {
   const [fruits, setFruits] = useState<Fruit[]>([]);
+  const { addToast } = useToasts();
 
   useEffect(() => {
     fetch('/api/fruits')
@@ -29,14 +31,23 @@ const Index: NextPage = () => {
     const query = new URLSearchParams(window.location.search);
     if (query.get('success')) {
       console.log('Order placed! You will receive an email confirmation.');
+      addToast('Order placed! You will receive an email confirmation.', {
+        appearance: 'success',
+      });
     }
 
     if (query.get('canceled')) {
       console.log(
         'Order canceled -- continue to shop around and checkout when you’re ready.'
       );
+      addToast(
+        'Order canceled -- continue to shop around and checkout when you’re ready.',
+        {
+          appearance: 'error',
+        }
+      );
     }
-  }, []);
+  }, [addToast]);
 
   return (
     <>
