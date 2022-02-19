@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { NextPage } from 'next';
-import { Grid, Card, Row, Text, Container } from '@nextui-org/react';
+import { Grid, Text, Container } from '@nextui-org/react';
 import { Fruit } from '../lib/types';
+import { FruitCard } from '../components/FruitCard';
 
 const Index: NextPage = () => {
   const [fruits, setFruits] = useState<Fruit[]>([]);
@@ -43,27 +44,7 @@ const Index: NextPage = () => {
         </Text>
         <Grid.Container gap={2} justify="flex-start">
           {fruits.map((item, index) => (
-            <Grid xs={6} sm={3} key={index}>
-              <Card hoverable clickable>
-                <Card.Body css={{ p: 0 }}>
-                  <Card.Image
-                    objectFit="cover"
-                    src={item.img}
-                    width="100%"
-                    height={140}
-                    alt={item.title}
-                  />
-                </Card.Body>
-                <Card.Footer>
-                  <Row wrap="wrap" justify="space-between">
-                    <Text b>{item.title}</Text>
-                    <Text css={{ color: '$accents4', fontWeight: '$semibold' }}>
-                      {item.price}
-                    </Text>
-                  </Row>
-                </Card.Footer>
-              </Card>
-            </Grid>
+            <FruitCard key={item.title} fruit={item} />
           ))}
         </Grid.Container>
       </Container>
