@@ -5,6 +5,16 @@ import { Grid, Text, Container } from '@nextui-org/react';
 import { Fruit } from '../lib/types';
 import { FruitCard } from '../components/FruitCard';
 
+import { loadStripe } from '@stripe/stripe-js';
+
+if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+  throw new Error('Missing Stripe Publishable Key');
+}
+
+export const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+
 const Index: NextPage = () => {
   const [fruits, setFruits] = useState<Fruit[]>([]);
 
@@ -12,6 +22,20 @@ const Index: NextPage = () => {
     fetch('/api/fruits')
       .then((res) => res.json())
       .then((data) => setFruits(data.fruits));
+  }, []);
+
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('success')) {
+      console.log('Order placed! You will receive an email confirmation.');
+    }
+
+    if (query.get('canceled')) {
+      console.log(
+        'Order canceled -- continue to shop around and checkout when you’re ready.'
+      );
+    }
   }, []);
 
   return (
